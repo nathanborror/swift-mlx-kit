@@ -45,7 +45,14 @@ extension Client {
         return modelContext
     }
 
-    public func fetchModelContainer(_ path: String, progress: @Sendable @escaping (Double) -> Void) async throws {
+    public func fetchModelContainer(id: String, progress: @Sendable @escaping (Double) -> Void) async throws {
+        let model = try model(id)
+        try await fetchModelContainer(path: model.path, progress: progress)
+    }
+
+    public func fetchModelContainer(path: String, progress: @Sendable @escaping (Double) -> Void) async throws {
+        guard cachedModels[path] == nil else { return }
+
         let config = ModelConfiguration(id: path)
 
         MLX.GPU.set(cacheLimit: 20 * 1024 * 1024) // limit the buffer cache
