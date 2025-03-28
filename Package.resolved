@@ -1,5 +1,5 @@
 {
-  "originHash" : "9524ddb301c0770961e79250ed7e9410dde93683218248ddd04a8660c4da2f3d",
+  "originHash" : "8efe282ddbef72920e8996d385ffb23ed035d44c4ba1720aaa4940a14e9c169a",
   "pins" : [
     {
       "identity" : "gzipswift",
@@ -34,7 +34,7 @@
       "location" : "https://github.com/ml-explore/mlx-swift-examples",
       "state" : {
         "branch" : "main",
-        "revision" : "20701c0eeedd339ede4dd3b964152d814a3e9716"
+        "revision" : "046cf153135b6c9cdc1dd6afdc071a2008006a66"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-numerics",
       "state" : {
-        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
-        "version" : "1.0.2"
+        "revision" : "e0ec0f5f3af6f3e4d5e7a19d2af26b481acb6ba8",
+        "version" : "1.0.3"
       }
     },
     {
@@ -78,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/huggingface/swift-transformers",
       "state" : {
-        "revision" : "55710ddfb1ae804b4b7ce973be75cf2e41272185",
-        "version" : "0.1.17"
+        "revision" : "be855fac725dbae27264e47a3eb535cc422a4ba8",
+        "version" : "0.1.18"
       }
     }
   ],
