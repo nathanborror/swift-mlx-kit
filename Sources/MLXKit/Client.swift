@@ -91,6 +91,20 @@ extension Client {
             return container
         }
     }
+
+    public func hasModelCached(_ path: String) -> Bool {
+        guard let model = modelsCached[path] else {
+            return false
+        }
+        switch model {
+        case .cached:
+            return true
+        case .idle:
+            return false
+        case .loading:
+            return false
+        }
+    }
 }
 
 extension Client {
