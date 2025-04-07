@@ -9,8 +9,9 @@ public struct Defaults: Sendable {
     public static let defaultModels: [Model] = [
         llama_3_2_1b_4bit,
         llama_3_2_3b_4bit,
+        llama_4_Scout_17B_16E_Instruct_4bit,
         deepseek_r1_distill_qwen_1_5b_4bit,
-        deepseek_r1_distill_qwen_1_5b_8bit
+        deepseek_r1_distill_qwen_1_5b_8bit,
     ]
 
     public static let llama_3_2_1b_4bit = Model(
@@ -21,6 +22,11 @@ public struct Defaults: Sendable {
     public static let llama_3_2_3b_4bit = Model(
         name: "Llama 3.2 3B Instruct (4 bit)",
         path: "mlx-community/Llama-3.2-3B-Instruct-4bit"
+    )
+
+    public static let llama_4_Scout_17B_16E_Instruct_4bit = Model(
+        name: "Llama 4 Scout 17B-16E Instruct (4 bit)",
+        path: "mlx-community/Llama-4-Scout-17B-16E-Instruct-4bit"
     )
 
     public static let deepseek_r1_distill_qwen_1_5b_4bit = Model(
