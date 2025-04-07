@@ -1,13 +1,14 @@
 import Foundation
+import OSLog
 import MLX
 import MLXLLM
 import MLXLMCommon
 import MLXRandom
 
-@MainActor
-@Observable
-public final class Client {
-    public static let shared = Client()
+private let logger = Logger(subsystem: "Client", category: "MLXKit")
+
+public final class Client: @unchecked Sendable {
+    public typealias ProgressHandler = @Sendable (Double) -> Void
 
     public var models: [Model]
     public var modelsCached: [String: ModelState]
@@ -32,8 +33,8 @@ public final class Client {
         case cached(ModelContainer)
     }
 
-    public init() {
-        self.models = Defaults.defaultModels
+    public init(models: [Model] = Defaults.defaultModels) {
+        self.models = models
         self.modelsCached = [:]
     }
 }
@@ -57,30 +58,35 @@ extension Client {
         }
     }
 
-    public func fetchModel(id: String) async throws -> ModelContainer {
+    public func fetchModel(id: String, progress: ProgressHandler? = nil) async throws -> ModelContainer {
         let model = try getModel(id)
-        return try await fetchModel(path: model.path)
+        return try await fetchModel(path: model.path, progress: progress)
     }
 
-    public func fetchModel(path: String) async throws -> ModelContainer {
+    public func fetchModel(path: String, progress: ProgressHandler? = nil) async throws -> ModelContainer {
         if modelsCached[path] == nil {
             modelsCached[path] = .idle
         }
         switch modelsCached[path]! {
         case .idle:
+            logger.debug("Downloading: \(path)")
             MLX.GPU.set(cacheLimit: 20 * 1024 * 1024) // limit the buffer cache
             let config = ModelConfiguration(id: path)
             let url = URL.documentsDirectory.appending(path: ".app")
             let container = try await LLMModelFactory.shared.loadContainer(hub: .init(downloadBase: url), configuration: config) { value in
-                print("Loading \(path): \(value.fractionCompleted)")
-                Task { @MainActor [weak self] in
-                    self?.modelsCached[path] = .loading
+                logger.debug("Loading \(path): \(value.fractionCompleted)")
 
-                    if var model = try? self?.getModel(path) {
-                        model.loaded = value.fractionCompleted
-                        self?.upsertModel(model)
-                    }
+                // Update model cache with loading state
+                self.modelsCached[path] = .loading
+
+                // Update model object with loading progress
+                if var model = try? self.getModel(path) {
+                    model.loaded = value.fractionCompleted
+                    self.upsertModel(model)
                 }
+
+                // Broadcast loading progress to callback
+                progress?(value.fractionCompleted)
             }
             modelsCached[path] = .cached(container)
             return container
