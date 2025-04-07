@@ -41,14 +41,14 @@ public final class Client: @unchecked Sendable {
 
 extension Client {
 
-    public func getModel(_ path: String) throws -> Model {
+    public func get(model path: String) throws -> Model {
         guard let model = models.first(where: { $0.path == path }) else {
             throw Error.missingModel(path)
         }
         return model
     }
 
-    public func upsertModel(_ model: Model) {
+    public func upsert(model: Model) {
         if let index = models.firstIndex(where: { $0.id == model.id }) {
             var existing = models[index]
             existing.apply(model)
@@ -58,12 +58,7 @@ extension Client {
         }
     }
 
-    public func fetchModel(id: String, progress: ProgressHandler? = nil) async throws -> ModelContainer {
-        let model = try getModel(id)
-        return try await fetchModel(path: model.path, progress: progress)
-    }
-
-    public func fetchModel(path: String, progress: ProgressHandler? = nil) async throws -> ModelContainer {
+    public func fetchModel(_ path: String, progress: ProgressHandler? = nil) async throws -> ModelContainer {
         if modelsCached[path] == nil {
             modelsCached[path] = .idle
         }
@@ -80,9 +75,9 @@ extension Client {
                 self.modelsCached[path] = .loading
 
                 // Update model object with loading progress
-                if var model = try? self.getModel(path) {
+                if var model = try? self.get(model: path) {
                     model.loaded = value.fractionCompleted
-                    self.upsertModel(model)
+                    self.upsert(model: model)
                 }
 
                 // Broadcast loading progress to callback
@@ -101,7 +96,7 @@ extension Client {
 extension Client {
 
     public func chatCompletions(_ request: ChatRequest) async throws -> String {
-        let container = try await fetchModel(id: request.model)
+        let container = try await fetchModel(request.model)
         let messages = encode(request.messages)
 
         // Each time you generate you will get something new
@@ -124,7 +119,7 @@ extension Client {
     }
 
     public func chatCompletionsStream(_ request: ChatRequest) async throws -> AsyncThrowingStream<String, Swift.Error> {
-        let container = try await fetchModel(id: request.model)
+        let container = try await fetchModel(request.model)
         let messages = encode(request.messages)
 
         // Each time you generate you will get something new
