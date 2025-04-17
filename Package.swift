@@ -13,12 +13,12 @@ let package = Package(
         .library(name: "MLXKit", targets: ["MLXKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nathanborror/swift-json", branch: "main"),
+        .package(url: "https://github.com/loopwork-ai/JSONSchema", branch: "main"),
         .package(url: "https://github.com/ml-explore/mlx-swift-examples", branch: "main"),
     ],
     targets: [
         .target(name: "MLXKit", dependencies: [
-            .product(name: "JSON", package: "swift-json"),
+            .product(name: "JSONSchema", package: "JSONSchema"),
             .product(name: "MLXLLM", package: "mlx-swift-examples"),
         ]),
     ]

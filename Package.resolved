@@ -1,5 +1,5 @@
 {
-  "originHash" : "8efe282ddbef72920e8996d385ffb23ed035d44c4ba1720aaa4940a14e9c169a",
+  "originHash" : "d3d0047faf67e22268f2186aef222510bf6a0017fdbf060006ddc85c630bd417",
   "pins" : [
     {
       "identity" : "gzipswift",
@@ -20,6 +20,15 @@
       }
     },
     {
+      "identity" : "jsonschema",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/loopwork-ai/JSONSchema",
+      "state" : {
+        "branch" : "main",
+        "revision" : "a60be45fa2ff42d342424f90a0859ee3e09aca2a"
+      }
+    },
+    {
       "identity" : "mlx-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ml-explore/mlx-swift",
@@ -34,7 +43,7 @@
       "location" : "https://github.com/ml-explore/mlx-swift-examples",
       "state" : {
         "branch" : "main",
-        "revision" : "046cf153135b6c9cdc1dd6afdc071a2008006a66"
+        "revision" : "289bb6794b4f6c206bc2bc41d3739268919b06ce"
       }
     },
     {
@@ -53,15 +62,6 @@
       "state" : {
         "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
         "version" : "1.1.4"
-      }
-    },
-    {
-      "identity" : "swift-json",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nathanborror/swift-json",
-      "state" : {
-        "branch" : "main",
-        "revision" : "50e18f57a3e52bc2e4db280dbde8e8cc6793e94a"
       }
     },
     {
